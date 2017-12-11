@@ -1,0 +1,9 @@
+{
+	"Description": "Giải tam giác T với a, b, c là độ dài các cạnh; A, B, C là số đo các góc tính theo radian",
+	"Symbols": ["a", "b", "c", "A", "B", "C"],
+	"Equations": ["A + B + C - 2*pi",
+				"a/sin(A) - b/sin(B)", "a/sin(A) - c/sin(C)", "b/sin(B) - c/sin(C)",
+				"a^2 + b^2 - c^2 - 2*a*b*cos(C)", "a^2 + c^2 - b^2 - 2*a*c*cos(B)", "c^2 + b^2 - a^2 - 2*c*b*cos(A)",
+				"a + b + c - P", "p - P", "hA*a - 2*sqrt(p*(p - a)*(p - b)*(p - c))", 
+				"hB*b - 2*sqrt(p*(p - a)*(p - b)*(p - c))", "hC*c - 2*sqrt(p*(p - a)*(p - b)*(p - c))"]
+}
