@@ -1,9 +1,11 @@
 {
-	"Description": "Giải tam giác T với a, b, c là độ dài các cạnh; A, B, C là số đo các góc tính theo radian",
-	"Symbols": ["a", "b", "c", "A", "B", "C"],
+	"Description": "Giải tam giác T với a, b, c là độ dài các cạnh; A, B, C là số đo các góc tính theo radian; ST là diện tích",
+	"Symbols": ["a", "b", "c", "A", "B", "C", "ST", "p", "P", "hA", "hB", "hC"],
+	"Rules": ["a>0", "b>0", "c>0", "A<pi", "B<pi", "C<pi", "P>0", "p>0", "hA>0", "hB>0", "hC>0", "ST>0"],
 	"Equations": ["A + B + C - 2*pi",
 				"a/sin(A) - b/sin(B)", "a/sin(A) - c/sin(C)", "b/sin(B) - c/sin(C)",
 				"a^2 + b^2 - c^2 - 2*a*b*cos(C)", "a^2 + c^2 - b^2 - 2*a*c*cos(B)", "c^2 + b^2 - a^2 - 2*c*b*cos(A)",
-				"a + b + c - P", "p - P", "hA*a - 2*sqrt(p*(p - a)*(p - b)*(p - c))", 
-				"hB*b - 2*sqrt(p*(p - a)*(p - b)*(p - c))", "hC*c - 2*sqrt(p*(p - a)*(p - b)*(p - c))"]
+				"a + b + c - P", "2*p - P", "hA*a - 2*sqrt(p*(p - a)*(p - b)*(p - c))", 
+				"hB*b - 2*sqrt(p*(p - a)*(p - b)*(p - c))", "hC*c - 2*sqrt(p*(p - a)*(p - b)*(p - c))",
+				"ST - sqrt(p*(p - a)*(p - b)*(p - c))"]
 }

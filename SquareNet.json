@@ -1,7 +1,6 @@
 {
-	"Description": "Giải hình vuông S với a độ dài các cạnh",
-	"Symbols": ["a", "b", "c", "A", "B", "C"],
-	"Equations": ["a^2 + b^2 - c^2", "A + B + C - 180",
-				"a/sin(A) - b/sin(B)", "a/sin(A) - c/sin(C)", "b/sin(B) - c/sin(C)",
-				"a^2 + b^2 - c^2 - 2*a*b*cos(C)", "a^2 + c^2 - b^2 - 2*a*c*cos(B)", "c^2 + b^2 - a^2 - 2*c*b*cos(A)"]
+	"Description": "Giải hình vuông S với b, d là độ dài các cạnh và ST là diện tích",
+	"Rules": ["b>0", "d>0", "ST>0"],
+	"Symbols": ["b", "d", "ST"],
+	"Equations": ["b - d", "b^2 - ST", "d^2 - ST"]
 }

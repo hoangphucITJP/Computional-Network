@@ -1,0 +1,9 @@
+{
+	"Description": "Giải polygon H với a, b, c, d là độ dài các cạnh; S1, S2 là diện tích các polygon cấu thành; ST là diện tiện polygon H",
+	"Polygons": [{"A": "TriangleNet.json"}, {"B": "SquareNet.json"}],
+	"Rules": ["a>0", "b>0", "c>0", "d>0", "S1>0", "S2>0", "ST>0"],
+	"Symbols": ["a", "b", "c", "d", "S1", "S2", "ST"],
+	"Mappings": [{"A": [["a", "a"], ["b", "b"], ["d", "b"], ["c", "c"], ["S1", "ST"]]},
+				{"B":[["b", "b"], ["d", "d"], ["S2", "ST"]]}],
+	"Equations": ["S1 + S2 - ST"]
+}
