@@ -24,14 +24,14 @@ class polygonH:
 		known = known.split(',')
 		known = [i.split('=') for i in known]
 		known = [[j.strip() for j in i] for i in known]
+		newknown = []
 		for i in known:
 			if mappingTable.get(i[0], 0) == 0:
-				known.remove(i)
 				continue
 			else:
-				i[0] = mappingTable[i[0]]
+				newknown.append([mappingTable[i[0]], i[1]])
 		knownRet = ''
-		for i in known:
+		for i in newknown:
 			knownRet = knownRet + i[0] + '=' + i[1] + ','
 		knownRet = knownRet[:-1]
 		return knownRet
@@ -40,21 +40,33 @@ class polygonH:
 		key = self.Mappings[polygon].get(key, 0)
 		return key
 
+	def _BackMappingKey(self, key, polygon):
+		for k, v in self.Mappings[polygon].items():
+			if key == v:
+				return k
+		return 0
+
+	def _BackMappingParameters(self, parameters, polygon):
+		Ret = {}
+		for i in parameters:
+			key = self._BackMappingKey(i, polygon)
+			if key != 0:
+				Ret.update({key: parameters[i]})
+		return Ret
+
+	def _MappingParameters(self, parameters, polygon):
+		Ret = {}
+		for i in parameters:
+			key = self._MappingKey(i, polygon)
+			if key != 0:
+				Ret.update({key: parameters[i]})
+		return Ret
+
 	def getParameter(self, key):
 		return self.Shape.getParameter(key)
 
 	def getAllParameter(self):
-		return self.Shape.getAllParameter()
-
-	def _getParameter1(self, key):
-		for polygon in self.polygons.values():
-			key1 = self._MappingKey(key, polygon)
-			if key1 != 0:
-				return polygon.getParameter(key1)
-
-	def _getAllParameter1(self):
-		Ret = {i: self._getParameter1(i) for i in self.Symbols}
-		return Ret
+		return self._GetAllParameter()
 
 	def _ParametersToKnown(self, parameters):
 		known = ""
@@ -64,28 +76,43 @@ class polygonH:
 		known = known[:-1]
 		return known
 
+	def _GetAllParameter(self, polygon = None):
+                if polygon == None:
+                        parametersH = self.Shape.getAllParameter()
+                        for i in self.polygons.values():
+                                parametersX = self._BackMappingParameters(
+                                                           i.getAllParameter(),
+                                                           i)
+                                parametersH = dict(parametersH,
+                                                   **parametersX)
+                        return parametersH
+                parametersH = self._MappingParameters(
+                        self.Shape.getAllParameter(), polygon)
+                print(parametersH)
+                parametersX = polygon.getAllParameter()
+                print(parametersX)
+                parameters = dict(parametersH, **parametersX)
+                return parameters
+
 	def Compute(self, known, logging = True):
-		if logging:
-			print("Giải hình H")
+		#H
 		self.Shape.Compute(known, logging)
+		queue = list(self.polygons.values())
+		while True:
+			ParameterLen = len(self.Shape.parameters)
+			polygon = queue.pop()
+			#A
+			parameters = self._GetAllParameter(polygon)			
+			known = self._ParametersToKnown(parameters)			
+			polygon.Compute(known, logging)
+
+			queue.insert(0, polygon)
 		
-		if logging:
-			print("Giải hình A")
-		mappedKnown = self._MappingInput(known, self.polygons['A'])
-		self.polygons["A"].Compute(mappedKnown, logging)
+			#H
+			parameters = self._GetAllParameter()
+			known = self._ParametersToKnown(parameters)
+			self.Shape.Compute(known, logging)
 
-		if logging:
-			print("Giải hình B")
-		mappedKnown = self._MappingInput(known, self.polygons['B'])
-		self.polygons["B"].Compute(mappedKnown, logging)
-
-		if logging:
-			print("Giải hình A")
-		mappedKnown = self._MappingInput(known, self.polygons['A'])
-		self.polygons["A"].Compute(mappedKnown, logging)
-
-		if logging:
-			print("Giải hình H")
-		parameters = self._getAllParameter1()
-		known = self._ParametersToKnown(parameters)
-		self.Shape.Compute(known, logging)
+			newParameterLen = len(self.Shape.parameters)
+			if newParameterLen == ParameterLen:
+				return
